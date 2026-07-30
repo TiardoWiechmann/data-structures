@@ -1,6 +1,6 @@
 import { LinkedList, Node } from "./linkedList";
 
-let list = new LinkedList();
+const list = new LinkedList();
 list.append("Tom");
 list.append("Sam");
 

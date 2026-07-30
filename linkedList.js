@@ -23,6 +23,10 @@ export class LinkedList {
         this.head = new Node(value, this.head);
     }
 
+    /**
+     * 
+     * @returns the total number of nodes in the list.
+     */
     size() {
         let tmp = this.head;
         let i = 0;

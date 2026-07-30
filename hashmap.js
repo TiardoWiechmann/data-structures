@@ -1,15 +1,11 @@
-import LinkedList from "./linkedList.js";
+import { LinkedList } from "./linkedList.js";
 
-class HashMap {
+export class HashMap {
 
     constructor() {
         this.loadFactor = 0.75;
         this.capacity = 16;
 
-        // let buckets = new Array(16).fill(0);
-        // buckets.forEach((bucket) => {
-        //     bucket = new LinkedList();
-        // });
         let buckets = [];
         for(let i=0; i<16; i++) {
             buckets.push(new LinkedList())
@@ -17,7 +13,9 @@ class HashMap {
         this.buckets = buckets;
     }
 
-
+    /**
+     * Takes a key and produces a hash code with it.
+     */
     hash(key) {
         let hashCode = 0;
         
@@ -29,10 +27,14 @@ class HashMap {
         return hashCode;
     }
 
-
+    /**
+     * Takes two arguments: the first is a key, and the second
+     * is a value that is assigned to this key. If a key
+     * already exists, then the old value is overwritten.
+     * If load factor is reached, the capacity gets doubled.
+     */
     set(key, value) {
         const index = this.hash(key);
-        console.log(`index: ${index}`);
         const obj = {};
         obj[key] = value;
 
@@ -57,9 +59,20 @@ class HashMap {
                 list.append(obj);
             }
         }
-        console.log(list)
+
+        // Check if map needs to grow
+        const load = this.loadFactor * this.capacity;
+        const entries = this.length();
+        if (entries > load) {
+            this.grow();
+        }
     }
 
+    /**
+     * Takes one argument as a key and returns the
+     * value that is assigned to this key. If a key
+     * is not found, return null.
+     */
     get(key) {
         const index = this.hash(key);
         let tmp = this.buckets[index].head;
@@ -72,6 +85,11 @@ class HashMap {
         return null;
     }
 
+    /**
+     * Takes a key as an argument and returns true 
+     * or false based on whether or not the key is 
+     * in the hash map.
+     */
     has(key) {
         if(this.get(key) === null) {
             return false;
@@ -81,6 +99,12 @@ class HashMap {
         }
     }
 
+    /**
+     * Takes a key as an argument. If the given key is
+     * in the hash map, it removes the entry with that
+     * key and return returns true. If the key isn't in 
+     * the hash map, it returns false.
+     */
     remove(key) {
         if (this.has(key)) {
             const index = this.hash(key);
@@ -106,35 +130,94 @@ class HashMap {
         return false;
     }
 
-
-    // Hier weitermachen
+    /**
+     * 
+     * @returns @returns the number of stored keys in the hash map.
+     */
     length() {
-        //returns the number of stored keys in the hash map
+        let len = 0;
+        this.buckets.forEach( (bucket) => {
+            len += bucket.size();
+        })
+        return len;
     }
 
-    keys() {
+    /**
+     * removes all entries in the hash map.
+     */
+    clear() {
+        let buckets = [];
+        for(let i=0; i<this.capacity; i++) {
+            buckets.push(new LinkedList())
+        }
+        this.buckets = buckets;
+    }
 
+    /**
+     * @returns an array containing all the keys inside the hash map.
+     */
+    keys() {
+        let arr = [];
+        this.buckets.forEach( (list) => {
+            let tmp = list.head;
+            while(tmp != null){
+                arr.push(Object.keys(tmp.value)[0])
+                tmp = tmp.next;
+            }
+        })
+        return arr;
+    }
+
+
+    /**
+     * @returns an array containing all the values.
+     */
+    values() {
+        let keys = this.keys();
+        let arr = [];
+        keys.forEach((key) => {
+            arr.push(this.get(key));
+        });
+        
+        return arr;
+    }
+
+    /**
+     * @returns an array that contains each key, value pair.
+     */
+    entries() {
+        let keys = this.keys();
+        let arr = [];
+        keys.forEach((key) => {
+            let val = this.get(key);
+            arr.push([key, val]);
+        });
+        
+        return arr;
+    }
+
+    /**
+     * Helper method to double array size and 
+     * rearrange entries.
+     */
+    grow() {
+        const entries = this.entries();
+        let len = this.buckets.length * 2;
+        this.capacity = len;
+        
+        // Create new array and set every value again
+        let buckets = [];
+        for(let i=0; i<len; i++) {
+            buckets.push(new LinkedList())
+        }
+        this.buckets = buckets;
+        
+        entries.forEach( (entry) => {
+            let key = entry[0];
+            let val = entry[1];
+            this.set(key, val);
+        })
     }
 }
 
 
-const test = new HashMap() 
-
-test.set('apple', 'red')
-test.set('banana', 'yellow')
-test.set('carrot', 'orange')
-test.set('dog', 'brown')
-test.set('elephant', 'gray')
-test.set('frog', 'green')
-test.set('grape', 'purple')
-test.set('hat', 'black')
-test.set('ice cream', 'white')
-test.set('jacket', 'blue')
-test.set('kite', 'pink')
-test.set('lion', 'golden')
-
-console.log(test)
-
-console.log(test.remove("lion"));
-
-console.log(test)
