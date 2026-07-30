@@ -170,39 +170,3 @@ class Node {
         this.next = next;
     }
 }
-
-
-const list = new LinkedList();
-
-// list.append("dog");
-// list.append("cat");
-// list.append("parrot");
-// list.append("hamster");
-// list.append("snake");
-// list.append("turtle");
-
-// console.log(list.toString());
-// // console.log(`size: ${list.size()}`);
-// // list.prepend("Tom");
-
-// list.removeAt(2);
-// console.log(list.toString());
-
-// console.log(`size: ${list.size()}`);
-
-// console.log(`head: ${list.heads()}`);
-
-// console.log(`tail: ${list.tail()}`);
-
-// console.log(`element at index 4: ${list.at(4)}`);
-
-// console.log(`pop: ${list.pop()}`);
-// console.log(list.toString());
-
-// console.log(`contains("Tom"): ${list.contains("Tom")}`)
-// console.log(`contains("turtle"): ${list.contains("turtle")}`)
-
-// console.log(`findIndex("parrot"): ${list.findIndex("parrot")}`);
-
-
-// Warum werden Befehle außerhalb der Klasse auch exportiert???
