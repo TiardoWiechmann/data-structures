@@ -64,3 +64,8 @@ test("removeAt(index)", () => {
     .toBe("( Tom ) -> ( Amy ) -> null");   
 })
 
+test("insertAt(index, ...values)", () => {
+    list.insertAt(1, "Sina", "Shawn");
+    expect(list.toString())
+    .toBe("( Tom ) -> ( Sina ) -> ( Shawn ) -> ( Amy ) -> null");
+})

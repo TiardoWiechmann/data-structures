@@ -138,6 +138,30 @@ export class LinkedList {
             }
         }
     }
+
+    insertAt(index, ...values) {
+        if (index < 0 || index >= this.size()) {
+            throw new RangeError("Index out of bounds");
+        }
+        const vals = [...values];
+        const list2 = new LinkedList();
+        vals.forEach( (val) => {
+            list2.append(val);
+        })
+
+        let tmp = this.head;
+        for (let i=0; i<index-1; i++) {
+            tmp = tmp.next;
+        }
+        
+        let tmp2 = list2.head;
+        while (tmp2.next != null) {
+            tmp2 = tmp2.next;
+        }
+        let startList2 = list2.head;
+        tmp2.next = tmp.next;   // rest of this gets appended to list2
+        tmp.next = startList2;  // list2 gets appended to this
+    }
 }
 
 class Node {
